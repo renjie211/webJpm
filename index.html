@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPM - Jasa Push Member</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0a;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: radial-gradient(circle at 20% 50%, #1a0a2e 0%, #0a0a0a 70%);
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+        .glow-text {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff0055, #ffcc00, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glowPulse 2s infinite alternate;
+        }
+        @keyframes glowPulse {
+            0% { filter: drop-shadow(0 0 10px #ff0055); }
+            100% { filter: drop-shadow(0 0 20px #00e5ff); }
+        }
+        .subtitle {
+            font-size: 14px;
+            letter-spacing: 3px;
+            color: #aaa;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: rgba(20,20,20,0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,0,85,0.2), transparent, rgba(0,229,255,0.2), transparent);
+            animation: rotateGlow 6s linear infinite;
+        }
+        @keyframes rotateGlow {
+            100% { transform: rotate(360deg); }
+        }
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #ff0055;
+            box-shadow: 0 20px 40px rgba(255,0,85,0.3);
+        }
+        .card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .card .price {
+            font-size: 22px;
+            font-weight: 800;
+            color: #00e5ff;
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 30px;
+            background: linear-gradient(45deg, #ff0055, #ff6600);
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255,0,85,0.5);
+        }
+        .calculator {
+            background: rgba(20,20,20,0.9);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+        }
+        .calculator h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ffcc00;
+        }
+        .member-input {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .member-input button {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid #ff0055;
+            background: transparent;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .member-input button:hover, .member-input button.active {
+            background: #ff0055;
+            border-color: #ff0055;
+            box-shadow: 0 0 15px #ff0055;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        .result span {
+            color: #00e5ff;
+            font-weight: 800;
+        }
+        .wa-order {
+            margin-top: 20px;
+        }
+        footer {
+            margin-top: 30px;
+            color: #555;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="glow-text">👥 JASA PUSH MEMBER</h1>
+        <div class="subtitle">GRUP WA / TELEGRAM • ANTI ERROR • GARANSI MASUK</div>
+
+        <div class="card-grid" id="price-cards">
+            <!-- Kartu harga akan di-generate otomatis oleh JavaScript -->
+        </div>
+
+        <!-- Kalkulator Harga -->
+        <div class="calculator">
+            <h2>🧮 KALKULATOR HARGA</h2>
+            <div class="member-input" id="member-buttons">
+                <!-- Tombol jumlah member -->
+            </div>
+            <div class="result">
+                Total harga untuk <span id="calc-member">0</span> member: <span id="calc-price">Rp 0</span>
+            </div>
+            <div class="wa-order">
+                <a href="#" id="calc-order" class="btn" target="_blank">Order via WhatsApp</a>
+            </div>
+        </div>
+
+        <footer>© 2026 Jasa Push Member - RENJIEEVUCK. All rights reserved. Harga bisa berubah sewaktu-waktu.</footer>
+    </div>
+
+    <script>
+        // Daftar harga: jumlah member -> harga dalam rupiah
+        const priceList = [
+            { member: 10, price: 1000 },
+            { member: 20, price: 2000 },
+            { member: 30, price: 3000 },
+            { member: 40, price: 4000 },
+            { member: 50, price: 5000 },
+            { member: 60, price: 6000 },
+            { member: 70, price: 7000 },
+            { member: 80, price: 8000 },
+            { member: 90, price: 9000 },
+            { member: 100, price: 10000 },
+            { member: 200, price: 20000 },
+            { member: 300, price: 30000 },
+            { member: 400, price: 40000 },
+            { member: 500, price: 50000 }
+        ];
+
+        // Ganti nomor WhatsApp lo di sini (format 6285651067164)
+        const baseNumber = '6285651067164';
+
+        // Generate kartu harga
+        const cardsContainer = document.getElementById('price-cards');
+        priceList.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-content">
+                    <h3>⚡ ${item.member} MEMBER</h3>
+                    <div class="price">Rp ${item.price.toLocaleString('id-ID')}</div>
+                    <a href="https://wa.me/${baseNumber}?text=Bang%20mau%20order%20JPM%20${item.member}%20member" class="btn" target="_blank">Order</a>
+                </div>
+            `;
+            cardsContainer.appendChild(card);
+        });
+
+        // Generate tombol kalkulator
+        const memberButtons = document.getElementById('member-buttons');
+        priceList.forEach(item => {
+            const btn = document.createElement('button');
+            btn.dataset.member = item.member;
+            btn.textContent = item.member;
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#member-buttons button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                updateCalculator(item.member);
+            });
+            memberButtons.appendChild(btn);
+        });
+
+        // Fungsi update kalkulator
+        function updateCalculator(member) {
+            const item = priceList.find(p => p.member === member);
+            if (!item) return;
+            const price = item.price;
+            document.getElementById('calc-member').textContent = member;
+            document.getElementById('calc-price').textContent = 'Rp ' + price.toLocaleString('id-ID');
+            document.getElementById('calc-order').href = `https://wa.me/${baseNumber}?text=Bang%20mau%20order%20JPM%20${member}%20member%20(total%20Rp%20${price.toLocaleString('id-ID')})`;
+        }
+
+        // Set default ke 10 member
+        updateCalculator(10);
+        // Tambahkan class active ke tombol default
+        document.querySelectorAll('#member-buttons button')[0].classList.add('active');
+    </script>
+</body>
+</html>
